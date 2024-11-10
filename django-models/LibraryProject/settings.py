@@ -57,7 +57,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',  # This will allow Django to find templates in a global templates directory
+            BASE_DIR / 'templates'  # This will allow Django to find templates in a global templates directory
         ],
         'APP_DIRS': True,
         'OPTIONS': {
