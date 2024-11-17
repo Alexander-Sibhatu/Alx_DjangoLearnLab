@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Book
 from django.shortcuts import render, redirect
-from .forms import BookForm
+from .forms import ExampleForm
 
 
 @permission_required('bookshelf.can_view', raise_exception=True)
@@ -42,12 +42,16 @@ def delete_book(request, pk):
         return redirect('book_list')
     return render(request, 'bookshelf/delete_book.html', {'book': book})
 
-def create_book(request):
+def example_view(request):
     if request.method == 'POST':
-        form = BookForm(request.POST)
+        form = ExampleForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('book_list')
+            # Process the form data
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            publication_date = form.cleaned_data['publication_date']
+            # You can now save data or process it as needed
+            return render(request, 'bookshelf/success.html', {'form': form})
     else:
-        form = BookForm()
-    return render(request, 'bookshelf/create_book.html', {'form': form})
+        form = ExampleForm()
+    return render(request, 'bookshelf/example_form.html', {'form': form})
