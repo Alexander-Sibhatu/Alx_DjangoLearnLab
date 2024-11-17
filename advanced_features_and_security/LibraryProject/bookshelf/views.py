@@ -42,19 +42,19 @@ def delete_book(request, pk):
         return redirect('book_list')
     return render(request, 'bookshelf/delete_book.html', {'book': book})
 
-def example_view(request):
-    if request.method == 'POST':
-        form = ExampleForm(request.POST)
-        if form.is_valid():
-            # Process the form data
-            title = form.cleaned_data['title']
-            description = form.cleaned_data['description']
-            publication_date = form.cleaned_data['publication_date']
-            # You can now save data or process it as needed
-            return render(request, 'bookshelf/success.html', {'form': form})
-    else:
-        form = ExampleForm()
-    return render(request, 'bookshelf/example_form.html', {'form': form})
+# def example_view(request):
+#     if request.method == 'POST':
+#         form = ExampleForm(request.POST)
+#         if form.is_valid():
+#             # Process the form data
+#             title = form.cleaned_data['title']
+#             description = form.cleaned_data['description']
+#             publication_date = form.cleaned_data['publication_date']
+#             # You can now save data or process it as needed
+#             return render(request, 'bookshelf/success.html', {'form': form})
+#     else:
+#         form = ExampleForm()
+#     return render(request, 'bookshelf/example_form.html', {'form': form})
 
 def form_example_view(request):
     if request.method == 'POST':
@@ -66,3 +66,7 @@ def form_example_view(request):
     else:
         form = ExampleForm()
     return render(request, 'bookshelf/form_example.html', {'form': form})
+
+def book_list_view(request):
+    books = Book.objects.all()  # Fetch all books from the database
+    return render(request, 'bookshelf/book_list.html', {'books': books})
