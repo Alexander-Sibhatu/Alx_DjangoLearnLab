@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,10 +24,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-7-8-a0qxw9glemx)j7p9f$yyyrp(fm1jn=wmpot7#f9@bs38wr'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+# Allowed hosts for production
+ALLOWED_HOSTS = ['your-domain.com', 'www.your-domain.com']
 
+# Secure browser settings
+SECURE_BROWSER_XSS_FILTER = True # Use SECURE_BROWSER_XSS_FILTER to protect against XSS attacks.
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# Secure cookies
+CSRF_COOKIE_SECURE = True  # Ensures CSRF cookie is sent only over HTTPS
+SESSION_COOKIE_SECURE = True  # Ensures session cookie is sent only over HTTPS
+
+# CSRF settings for ensuring referer validation
+CSRF_COOKIE_HTTPONLY = True
+
+# Other recommendations
+SECURE_HSTS_SECONDS = 31536000  # Enables HTTP Strict Transport Security (HSTS) for one year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Applies HSTS to subdomains
+SECURE_HSTS_PRELOAD = True  # Preload for browser support
 
 # Application definition
 
@@ -49,7 +67,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'https://apis.google.com')  # Adjust based on your needs
+CSP_STYLE_SRC = ("'self'", 'https://fonts.googleapis.com')  # Adjust based on your needs
+CSP_IMG_SRC = ("'self'", 'data:')
+CSP_FONT_SRC = ("'self'", 'https://fonts.gstatic.com')
 
 ROOT_URLCONF = 'LibraryProject.urls'
 
