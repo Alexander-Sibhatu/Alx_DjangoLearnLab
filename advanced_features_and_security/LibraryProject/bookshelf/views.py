@@ -55,3 +55,14 @@ def example_view(request):
     else:
         form = ExampleForm()
     return render(request, 'bookshelf/example_form.html', {'form': form})
+
+def form_example_view(request):
+    if request.method == 'POST':
+        form = ExampleForm(request.POST)
+        if form.is_valid():
+            # Process form data here
+            print("Form submitted successfully!")
+            return render(request, 'bookshelf/success.html', {'form': form})
+    else:
+        form = ExampleForm()
+    return render(request, 'bookshelf/form_example.html', {'form': form})
