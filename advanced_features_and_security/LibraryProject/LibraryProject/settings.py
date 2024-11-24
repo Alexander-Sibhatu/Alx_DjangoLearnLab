@@ -29,6 +29,9 @@ DEBUG = False
 # Allowed hosts for production
 ALLOWED_HOSTS = ['your-domain.com', 'www.your-domain.com']
 
+# Redirect all HTTP requests to HTTPS
+SECURE_SSL_REDIRECT = True
+
 # Secure browser settings
 SECURE_BROWSER_XSS_FILTER = True # Use SECURE_BROWSER_XSS_FILTER to protect against XSS attacks.
 X_FRAME_OPTIONS = 'DENY'
