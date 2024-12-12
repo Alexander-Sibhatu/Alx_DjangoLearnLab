@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Author, Book
 
-class BookSerlializer(serializers.ModelSerializer):
+class BookSerializer(serializers.ModelSerializer):
     def validate_publication_year(self, value):
         import datetime
         current_year = datetime.date.today().year
@@ -15,7 +15,7 @@ class BookSerlializer(serializers.ModelSerializer):
 
 class AuthorSerializer(serializers.ModelSerializer):
 
-    books = BookSerlializer(many=True, read_only=True)
+    books = BookSerializer(many=True, read_only=True)
 
     class Meta:
         model = Author
