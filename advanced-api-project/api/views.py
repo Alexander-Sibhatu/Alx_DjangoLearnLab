@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 
 # filtering, searching and ordering imports
 from django_filters import rest_framework 
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework import filters SearchFilter, OrderingFilter
 
 
 
@@ -18,6 +18,11 @@ class BookListView(generics.ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
 
     # Enable filtering by title, author, and publication year
+    filter_backends = [rest_framework.DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_field = ['title', 'author', 'publication_year'] # Fields to filter by
+    search_fields = ['title', 'author'] # Fields to search by
+    ordering_fields = ['title', 'publication_year'] # Fields to order by
+    ordering = ['title'] # Default ordering by title
 
     def get_queryset(self):
 
