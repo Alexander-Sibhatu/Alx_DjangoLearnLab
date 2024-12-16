@@ -1,0 +1,16 @@
+{% extends 'base_generic.html' %}
+
+{% load static %}
+
+{% block content %}
+<h2>Login</h2>
+
+<!-- Link to the CSS file -->
+<link rel="stylesheet" href="{% static 'blog/css/styles.css' %}">
+
+<form method="post" class="auth-form">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit" class="btn-login">Login</button>
+</form>
+{% endblock %}
