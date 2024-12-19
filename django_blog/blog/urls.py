@@ -10,6 +10,8 @@ urlspatters = [
           name='register'),
     path('profile/', views.profile_view, name='profile'),
     path('', auth_views.PostListView.as_view(), name='post-list'),
-    path('post/detail', auth_views.PostDetailView.as_view(), name='post-detail'),
-    path('post/new/', auth_views.PostCreateView.as_view(), name='post-edit')
+    path('post/<int:pk>/', auth_views.PostDetailView.as_view(), name='post-detail'),
+    path('post/new/', auth_views.PostCreateView.as_view(), name='post-edit'),
+    path('post/<int:pk>/edit/', auth_views.PostUpdateView.as_view(), name='post-edit'),
+    path('post/<int:pk>/delete/', auth_views.PostDeleteView.as_view(), name='post-delete'),
 ]
