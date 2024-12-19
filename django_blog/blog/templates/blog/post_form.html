@@ -1,0 +1,11 @@
+# post_form.html
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{{ view.object ? 'Edit Post' : 'New Post' }}</h2>
+  <form method="post">  
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+  </form>
+{% endblock %}
