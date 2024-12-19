@@ -8,5 +8,8 @@ urlspatters = [
           name='logout'),
     path('register/', auth_views.LogoutView.as_view(template_name='templates/register.html'),
           name='register'),
-    path('profile/', views.profile_view, name='profile')
+    path('profile/', views.profile_view, name='profile'),
+    path('', auth_views.PostListView.as_view(), name='post-list'),
+    path('post/detail', auth_views.PostDetailView.as_view(), name='post-detail'),
+    path('post/new/', auth_views.PostCreateView.as_view(), name='post-edit')
 ]
