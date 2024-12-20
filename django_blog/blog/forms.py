@@ -9,9 +9,9 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['title', 'content', 'tags']
-        widgets = TagWidget(
-                attrs={'class': 'form-control', 'placeholder': 'Enter tags separated by commas'}
-                )
+        widgets = {
+            'tags': TagWidget(),
+        }
 
     def save(self, commit=True):
         instance = super().save(commit=False)
