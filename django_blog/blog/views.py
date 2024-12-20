@@ -1,11 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, CommentForm, PostForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django import forms
+from .models import Post, Comment
+from django.views.generic import View
 
 def register(request):
     if request.method == 'POST':
@@ -29,12 +31,6 @@ def profile(request):
     return render(request, 'registration/profile.html')
 
 # Create your views here.
-
-# forms.py
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ['title', 'content']
 
 # views.py
 class PostListView(ListView):
@@ -77,3 +73,33 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     def test_func(self):
         post = self.get_object()
         return self.request.user == post.author
+
+# Implement Comment views
+class CommentCreateView(View):
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, id=post_id)
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.author = request.user
+            comment.save()
+            return redirect('post_detail', post_id=post.id)
+        return render(request, 'blog/post_detail.html', {'form': form, 'post': post})
+    
+
+class CommentEditView(View):
+    def get(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id, author=request.user)
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', post_id=comment.post.id)
+        return render(request, 'blog/edit_comment.html', {'form': form})
+    
+class CommentDeleteView(View):
+    def post(self, request, comment_id):
+        comment = get_object_or_404(Comment, id=comment_id, author=request.user)
+        post_id = comment.post.id
+        comment.delete()
+        return redirect('post_detail', post_id=post_id)
