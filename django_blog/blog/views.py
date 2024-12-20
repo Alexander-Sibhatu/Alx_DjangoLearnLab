@@ -88,7 +88,7 @@ class CommentCreateView(View):
         return render(request, 'blog/post_detail.html', {'form': form, 'post': post})
     
 
-class CommentEditView(View):
+class CommentUpdateView(View):
     def get(self, request, comment_id):
         comment = get_object_or_404(Comment, id=comment_id, author=request.user)
         form = CommentForm(request.POST, instance=comment)

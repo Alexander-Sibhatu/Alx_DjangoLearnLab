@@ -15,6 +15,6 @@ urlspatters = [
     path('post/<int:pk>/update/', auth_views.PostUpdateView.as_view(), name='post-edit'),
     path('post/<int:pk>/delete/', auth_views.PostDeleteView.as_view(), name='post-delete'),
      path('posts/<int:post_id>/comments/new/', auth_views.CommentCreateView.as_view(), name='create_comment'),
-    path('comments/<int:comment_id>/edit/', auth_views.CommentEditView.as_view(), name='edit_comment'),
+    path('comments/<int:comment_id>/edit/', auth_views.CommentUpdateView.as_view(), name='edit_comment'),
     path('comments/<int:comment_id>/delete/', auth_views.CommentDeleteView.as_view(), name='delete_comment'),
 ]
