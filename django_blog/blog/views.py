@@ -6,6 +6,7 @@ from .forms import CustomUserCreationForm, CommentForm, PostForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django import forms
+from django.db.models import Q
 from .models import Post, Comment
 from django.views.generic import View
 
@@ -103,3 +104,12 @@ class CommentDeleteView(View):
         post_id = comment.post.id
         comment.delete()
         return redirect('post_detail', post_id=post_id)
+
+# Develop Search Functionality
+class SearchResultsView(View):
+    def get(self, request):
+        query = request.GET.get('q')
+        posts = Post.objects.filter(
+            Q(title__icontains=query) | Q(content__icontains=query) | Q(tags__name__icontains=query)
+        ).distinct()
+        return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
