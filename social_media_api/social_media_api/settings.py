@@ -44,6 +44,33 @@ INSTALLED_APPS = [
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+DEBUG = False
+
+ALLOWED_HOSTS = ['yourdomain.com', 'your-server-ip']
+
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True  # Use only if you have HTTPS enabled
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'yourdbname',
+        'USER': 'yourdbuser',
+        'PASSWORD': 'yourdbpassword',
+        'HOST': 'yourdbhost',
+        'PORT': '5432',
+    }
+}
+
+from decouple import config
+
+SECRET_KEY = config('SECRET_KEY')
+DATABASES = {
+    'default': config('DATABASE_URL', cast=db_url)
+}
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
