@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RegisterView, LoginView, UserProfileView, PostViewSet
+from .views import RegisterView, LoginView, UserProfileView, PostViewSet, FollowingPostsView
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
@@ -7,13 +7,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('profile/', UserProfileView.as_view(), name='profile'),
     path('posts/', PostViewSet.as_view(), name='posts'),
+    path('feed/', FollowingPostsView.as_view(), name='feed')
 ]
 
-# from rest_framework.routers import DefaultRouter
-# from .views import PostViewSet, CommentViewSet
-
-# router = DefaultRouter()
-# router.register('posts', PostViewSet, basename='post')
-# router.register('comments', CommentViewSet, basename='comment')
-
-# urlpatterns = router.urls
