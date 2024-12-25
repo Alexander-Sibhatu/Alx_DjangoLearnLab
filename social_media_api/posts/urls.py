@@ -9,6 +9,6 @@ urlpatterns = [
     path('posts/', PostViewSet.as_view(), name='posts'),
     path('feed/', FollowingPostsView.as_view(), name='feed'),
     path('<int:pk>/like/', LikePostView.as_view(), name='like'),
-    path('<int:pk/unlike/', UnlikePostView.as_view(), name='unlike')
+    path('<int:pk>/unlike/', UnlikePostView.as_view(), name='unlike')
 ]
 
