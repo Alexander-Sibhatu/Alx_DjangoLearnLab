@@ -22,7 +22,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
 class FollowingPostsView(generics.ListAPIView):
-    permissions_class = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = PostSerializer
 
     def get_queryset(self):
@@ -41,14 +41,14 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from .models import Like
 from notifications.models import Notification
-from rest_framework.generics import get_object_or_404
+from rest_framework import generics
 
 class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
         # Safely fetch the post or return a 404 error
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
         # Attempt to create a like, ensuring no duplicates
         like, created = Like.objects.get_or_create(user=request.user, post=post)
@@ -72,7 +72,7 @@ class UnlikePostView(generics.GenericAPIView):
 
     def delete(self, request, pk):
         # Safely fetch the post or return a 404 error
-        post = get_object_or_404(Post, pk=pk)
+        post = generics.get_object_or_404(Post, pk=pk)
 
         # Find the like instance
         like = Like.objects.filter(user=request.user, post=post).first()
